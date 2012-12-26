@@ -5,17 +5,19 @@ description: ""
 category: TFS 
 tags: []
 author: 'Wang Ning'
-contributors: ['Wang Ning']
+contributors: ['Wang Ning', 'Lantao Liu']
 ---
 {% include JB/setup %}
 
     [public]
+<br/>
+
 
 日志级别，**可选设置**，默认为**debug** 
 
 线上建议设置为INFO，调试时设为DEBUG，有效值是"ERROR","WARN","INFO","DEBUG"，不区分大小写
 
-    log_level = info
+    log_level = INFO [ ERROR|WARN|INFO|DEBUG ]
 <br/>
 
 日志文件的大小，单位Byte，**可选设置**，默认为**1GiB**，超过该大小后日志将被转储
@@ -54,6 +56,7 @@ TFS底层网络编程框架采用tbnet库以简化消息的处理。tbnet接收�
 网络设备，**必须设置**
 
     dev_name = bond0
+<br/>
 
 
 对外提供服务的IP地址，**必须设置**
