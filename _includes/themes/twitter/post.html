@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1>{{ page.title }} <small>Supporting tagline</small></h1>
+  <h1>{{ page.title }} <small>{{ page.author | data_to_long_string }}</small></h1>
 </div>
 
 <div class="row">
@@ -28,6 +28,17 @@
   <div class="span4">
     <h4>Published</h4>
     <div class="date"><span>{{ page.date | date_to_long_string }}</span></div>
+
+    {% if page.contributors %}
+    <h4>Contributors</h4>
+    <div class="contributors">
+      <ul>
+      {% for pc in page.contributors %}
+        <li>{{ pc }}</li>
+      {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
 
   {% unless page.tags == empty %}
     <h4>Tags</h4>
