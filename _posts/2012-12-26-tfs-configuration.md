@@ -5,7 +5,7 @@ description: ""
 category: TFS 
 tags: []
 author: 'Wang Ning'
-contributors: ['Wang Ning', 'Lantao Liu']
+contributors: ['Wang Ning']
 ---
 {% include JB/setup %}
 
