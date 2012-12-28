@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Renren Team Blog
-tagline: Everythin impossible
+title: Renren SOM Team Blog
+tagline: Keep moving forward
 ---
 {% include JB/setup %}
 
