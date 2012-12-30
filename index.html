@@ -1,0 +1,85 @@
+---
+layout: page
+title: Renren SOM Team Blog
+tagline: Keep moving forward
+---
+{% include JB/setup %}
+
+{% for post in paginator.posts %}
+  <div class="full" style='background-color: #FFF;'>
+    <h1 class="entry-title">
+      <a href="{{ post.url }}" title="{{ post.title }}" rel="bookmark">{{ post.title }}</a>
+    </h1>
+    <p class="alt-font tight">
+      <span class="date full-date">
+        <abbr class="published" title="{{ post.date }}">{{ post.date | date_to_string }}</abbr>
+      </span>
+        {{ post.author }}
+      <span>
+      </span>
+      Posted in&nbsp;
+      {% for category in post.categories %}
+      <a href="/categories/{{ category }}" title="{{ category }}" rel="category tag">{{ category }}</a>
+      {% endfor %}
+    </p>
+    <div class="entry-content full-content" style='background-color: #FFF; margin-left: 24px; padding: 10px;'>
+      {{ post.content | truncatehtml: 350 }}
+      <a href="{{ post.url }}" class="read_more span2 pull-right">继续阅读……</a>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="rule"><hr/></div>
+{% endfor %}
+
+<div id="post-pagination" class="pagination">
+  <ul class="pages nav nav-pills">
+
+  {% if paginator.previous_page %}
+    <li>
+    {% if paginator.previous_page == 1 %}
+      <a href="/">Previous</a>
+    {% else %}
+      <a href="/page{{paginator.previous_page}}">Previous</a>
+    {% endif %}
+    </li>
+  {% else %}
+    <li>
+      <a href="#">Previous</a>
+    </li>
+  {% endif %}
+
+  {% if paginator.page == 1 %}
+    <li class="page active">
+      <a href="#">1</a>
+    </li>
+  {% else %}
+    <li class="page">
+      <a href="/">1</a>
+    </li>
+  {% endif %}
+
+  {% for count in (2..paginator.total_pages) %}
+    {% if count == paginator.page %}
+    <li class="page active">
+      <a href="#">{{count}}</a>
+    </li>
+    {% else %}
+    <li class="page">
+      <a href="/page{{count}}">{{count}}</a>
+    </li>
+    {% endif %}
+  {% endfor %}
+
+  {% if paginator.next_page %}
+    <li>
+      <a href="/page{{paginator.next_page}}">Next</a>
+    </li>
+  {% else %}
+    <li>
+      <a href="#">Next</a>
+    </li>
+  {% endif %}
+
+  </ul>
+</div>
