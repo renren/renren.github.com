@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Renren SOM Team Blog</title>
+    
+    <meta name="author" content="Renren Inc.">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Renren</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>Renren SOM Team Blog  <small>Keep moving forward</small></h1>
+</div>
+
+<div class="row">
+  <div class="span12">
+    
+
+
+  <div class="full" style='background-color: #FFF;'>
+    <h1 class="entry-title">
+      <a href="/TFS/2012/12/26/tfs-configuration" title="TFS配置文件" rel="bookmark">TFS配置文件</a>
+    </h1>
+    <p class="alt-font tight">
+      <span class="date full-date">
+        <abbr class="published" title="2012-12-26 00:00:00 +0800">26 Dec 2012</abbr>
+      </span>
+        Wang Ning
+      <span>
+      </span>
+      Posted in&nbsp;
+      
+      <a href="/categories/TFS" title="TFS" rel="category tag">TFS</a>
+      
+    </p>
+    <div class="entry-content full-content" style='background-color: #FFF; margin-left: 24px; padding: 10px;'>
+      <html><body>
+<pre><code>[public]</code></pre>
+<br><p>日志级别，<strong>可选设置</strong>，默认为<strong>debug</strong></p>
+
+<p>线上建议设置为INFO，调试时设为DEBUG，有效值是”ERROR”,”WARN”,”INFO”,”DEBUG”，不区分大小写</p>
+
+<pre><code>log_level = INFO [ ERROR|WARN|INFO|DEBUG ]</code></pre>
+<br><p>日志文件的大小，单位Byte，<strong>可选设置</strong>，默认为<strong>1GiB</strong>，超过该大小后日志将被转储</p>
+
+<pre><code>log_size = 1073741824</code></pre>
+<br><p>保留日志文件的个数，<strong>可选设置</strong>，默认为<strong>16</strong></p>
+
+<p>以nameserver为例，所有日志文件保存在work_dir/logs目录，正在写的文件是nameserver.log。当nameserver.log大小超过log_size时，nameserver.log改名为nameserver.log.%Y%m%d%H%M%S，其中YmdHMS分别代表年月日时分秒。如果nameserver进程启动后写入的log文件数目超过了log_...</p>
+</body></html>
+      <a href="/TFS/2012/12/26/tfs-configuration" class="read_more span2 pull-right">继续阅读……</a>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="rule"><hr/></div>
+
+
+<div id="post-pagination" class="pagination">
+  <ul class="pages nav nav-pills">
+
+  
+    <li>
+      <a href="#">Previous</a>
+    </li>
+  
+
+  
+    <li class="page active">
+      <a href="#">1</a>
+    </li>
+  
+
+  
+
+  
+    <li>
+      <a href="#">Next</a>
+    </li>
+  
+
+  </ul>
+</div>
+
+  </div>
+</div>
+
+
+      </div>
+
+      <footer>
+        <p>&copy; Renren Inc. 2012 
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+  </body>
+</html>
+

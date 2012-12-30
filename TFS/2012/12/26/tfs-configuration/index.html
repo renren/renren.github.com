@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>TFS配置文件</title>
+    <meta name="description" content="">
+    <meta name="author" content="Renren Inc.">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="/assets/themes/twitter/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/twitter/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+  <!-- Update these with your own images
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  -->
+  </head>
+
+  <body>
+
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Renren</a>
+          <ul class="nav">
+            
+            
+            
+
+
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="content">
+        
+<div class="page-header">
+  <h1>TFS配置文件 <small>Wang Ning</small></h1>
+</div>
+
+<div class="row">
+  <div class="span9" style='background-color: #FFF;'>
+    <pre><code>[public]</code></pre>
+<br />
+<p>日志级别，<strong>可选设置</strong>，默认为<strong>debug</strong></p>
+
+<p>线上建议设置为INFO，调试时设为DEBUG，有效值是&#8221;ERROR&#8221;,&#8221;WARN&#8221;,&#8221;INFO&#8221;,&#8221;DEBUG&#8221;，不区分大小写</p>
+
+<pre><code>log_level = INFO [ ERROR|WARN|INFO|DEBUG ]</code></pre>
+<br />
+<p>日志文件的大小，单位Byte，<strong>可选设置</strong>，默认为<strong>1GiB</strong>，超过该大小后日志将被转储</p>
+
+<pre><code>log_size = 1073741824</code></pre>
+<br />
+<p>保留日志文件的个数，<strong>可选设置</strong>，默认为<strong>16</strong></p>
+
+<p>以nameserver为例，所有日志文件保存在work_dir/logs目录，正在写的文件是nameserver.log。当nameserver.log大小超过log_size时，nameserver.log改名为nameserver.log.%Y%m%d%H%M%S，其中YmdHMS分别代表年月日时分秒。如果nameserver进程启动后写入的log文件数目超过了log_num，则删除最早生成的那个log文件，最后重新打开nameserver.log。需要注意的是，work_dir/logs目录下的日志文件数量可能远大于log_num，log_num控制的是每次nameserver进程生存期内最多产生的log文件数量</p>
+
+<pre><code>log_num = 16</code></pre>
+<br />
+<p>工作线程数量，<strong>可选设置</strong>，默认为<strong>8</strong></p>
+
+<p>TFS底层网络编程框架采用tbnet库以简化消息的处理。tbnet接收和处理包的过程符合生产者-消费者模型。tbnet网络IO线程收到数据后还原为TFS Message，然后放入一全局工作队列中，有多个消费者线程从全局队列取得Message，执行相应的消息处理函数。thread_count指定消费者线程数量</p>
+
+<pre><code>thread_count = 4</code></pre>
+<br />
+<p>工作队列大小，<strong>可选设置</strong>，默认是<strong>10240</strong></p>
+
+<p>指定工作队列中最多能存放的TFS Message数目，最小为10240，最大为40960</p>
+
+<pre><code>task_max_queue_size = 10240</code></pre>
+<br />
+<p>工作目录，<strong>可选设置</strong>，默认为<strong>/tmp</strong></p>
+
+<p>该目录下的logs目录存放日志文件，根据服务的不同，工作目录下还会存储一些持久化数据。因为/tmp下的数据易失，强烈建议改掉默认设置</p>
+
+<pre><code>work_dir = /data/tfs</code></pre>
+<br />
+<p>网络设备，<strong>必须设置</strong></p>
+
+<pre><code>dev_name = bond0</code></pre>
+<br />
+<p>对外提供服务的IP地址，<strong>必须设置</strong></p>
+
+<p>服务配置HA时设置为VIP，没配置HA可以设为master的IP</p>
+
+<pre><code>ip_addr = 192.168.0.1</code></pre>
+<br />
+<p>监听端口, <strong>必须设置</strong>，从1024~65535中选取</p>
+
+<pre><code>port = 8108</code></pre>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev disabled"><a>&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next disabled"><a>Next &rarr;</a>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&border=1&fontsize=14&skin=9&ralateuid=1653644220&language=zh_cn&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + document.URL); 
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+
+
+
+
+  </div>
+  
+  <div class="span3">
+    <h4>Published</h4>
+    <div class="date"><span>26 December 2012</span></div>
+
+    
+    <h4>Contributors</h4>
+    <div class="contributors">
+      <ul>
+      
+        <li>Wang Ning</li>
+      
+      </ul>
+    </div>
+    
+
+    
+  </div>
+</div>
+
+
+      </div>
+
+      <footer>
+        <p>&copy; Renren Inc. 2012 
+          with help from <a href="http://jekyllbootstrap.com" target="_blank" title="The Definitive Jekyll Blogging Framework">Jekyll Bootstrap</a>
+          and <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>
+        </p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    
+  </body>
+</html>
+
