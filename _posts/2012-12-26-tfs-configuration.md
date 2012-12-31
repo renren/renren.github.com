@@ -2,8 +2,8 @@
 layout: post
 title: "TFS配置文件"
 description: ""
-category: TFS 
-tags: []
+categories: [ Documents, TFS ]
+tags: [TFS]
 author: 'Wang Ning'
 contributors: ['Wang Ning']
 ---
