@@ -1,4 +1,5 @@
 
+http://renren.github.com/404.html
 http://renren.github.com/archive.html
 http://renren.github.com/atom.xml
 http://renren.github.com/categories.html
@@ -7,4 +8,5 @@ http://renren.github.com/pages.html
 http://renren.github.com/sitemap.txt
 http://renren.github.com/tags.html
 
+http://renren.github.com/2012/12/31/nginx-testing-10Gibps
 http://renren.github.com/Documents/TFS/2012/12/26/tfs-configuration

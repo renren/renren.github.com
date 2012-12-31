@@ -4,7 +4,7 @@
  <title>Renren</title>
  <link href="http://renren.github.com/atom.xml" rel="self"/>
  <link href="http://renren.github.com"/>
- <updated>2012-12-31T14:33:33+08:00</updated>
+ <updated>2012-12-31T19:02:59+08:00</updated>
  <id>http://renren.github.com</id>
  <author>
    <name>Renren Inc.</name>
@@ -13,59 +13,1099 @@
 
  
  <entry>
+   <title>Nginx 万兆网络环境测试</title>
+   <link href="http://renren.github.com/2012/12/31/nginx-testing-10Gibps"/>
+   <updated>2012-12-31T00:00:00+08:00</updated>
+   <id>http://renren.github.com/2012/12/31/nginx-testing-10Gibps</id>
+   <content type="html">
+&lt;p&gt;&lt;strong&gt;目录&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试目标&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试设备&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试环境说明&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;特别注意事项&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试一&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试二&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试三&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试四&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试五&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试六&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试七&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;术语及缩写说明&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;附注&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;section&quot;&gt;测试目标&lt;/h1&gt;
+
+&lt;p&gt;本次测试的目标是将nginx作为7层负载均衡软件，应用于万兆环境下，获得&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;极限性能&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在服务质量保证约束条件下的极限性能&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;提升极限性能的方法&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在万兆环境下部署的一般方法和特殊注意事项&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;同时，由于nginx还作为静态页面的提供者，附带还进行获得nginx作为静态文件服务器的&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;极限性能&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在服务质量保证约束条件下的极限性能&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;提升极限性能的方法&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在万兆环境下部署的一般方法和特殊注意事项&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;操作系统是一个很大的影响因素，在测试开始，会对操作系统版本进行选择，以确定哪个是更合适的平台。&lt;/p&gt;
+
+&lt;h1 id=&quot;section-1&quot;&gt;测试设备&lt;/h1&gt;
+
+&lt;p&gt;测试设备如下&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;万兆网卡X520-DA2&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;万兆交换机DCS-7124SX-F&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;万兆DA线&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;SNB服务器&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;WSM服务器&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;section-2&quot;&gt;测试环境说明&lt;/h1&gt;
+
+&lt;p&gt;所有测试服务器连接在同一个万兆交换机下，处于同一个网段。&lt;/p&gt;
+
+&lt;p&gt;服务器划分为&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;服务器（以S简称）：提供静态或动态页面，次要测试对象&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;7层负载均衡（以LB简称）：提供负载均衡功能，主要测试对象&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;客户端（以C简称）：提供测试压力&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;section-3&quot;&gt;特别注意事项&lt;/h1&gt;
+
+&lt;h2 id=&quot;keepalive&quot;&gt;Keepalive&lt;/h2&gt;
+
+&lt;p&gt;由于LB和S数量少，高RPS情况下，LB如果采用短连接方式连接S，LB的outgoing port会很快用尽。&lt;/p&gt;
+
+&lt;p&gt;解决的方法有两种：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;S采用多IP配置，模拟众多S的情况，减小每个S所要消耗的LB outgoing port；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;LB与S之间采用keepalive连接&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;短连接的方式下，CPU会有相当一部分消耗在三次握手上，这主要是操作系统开销（小包处理），以及nginx初始化会话上下文的开销。&lt;/p&gt;
+
+&lt;h2 id=&quot;rpspps&quot;&gt;RPS、PPS与流量吞吐率&lt;/h2&gt;
+
+&lt;p&gt;极限测试下，PPS考验服务器的CPU能力；而HTTP协议请求头的处理也是CPU密集型任务。&lt;/p&gt;
+
+&lt;p&gt;相同流量吞吐率下&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;较小的响应意味着较高的RPS&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;当响应小于一个最大TCP报文长度时，响应越小，也意味着PPS越高&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;极限测试中，需要测试以下三种情形&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;全部是大报文。可以通过构造响应为一个最大TCP报文长度实现&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;全部是小报文。可以通过构造响应为最小HTTP响应实现&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;混合报文。可以通过构造响应为一个或两个TCP报文，一个是最大TCP报文长度，另外一个的长度可以控制，来满足特定的混合比例&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;流量吞吐率是一个表观指标，但我们更关心的是在带宽足够的条件下，RPS指标（的范围）。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;压缩&lt;/h2&gt;
+
+&lt;p&gt;在我们的实际使用中，LB是不负责压缩的。但测试中需要测试压缩对RPS的影响。需要考察压缩方面的优化方法。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-5&quot;&gt;规则集&lt;/h2&gt;
+
+&lt;p&gt;负载均衡规则集大小对性能会有影响。由于规则集处理开销正比于RPS，测试中应对较大的规则集进行测试以找出影响大小和可能的优化措施。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-6&quot;&gt;实际网络情况&lt;/h2&gt;
+
+&lt;p&gt;一般而言，极限性能是最理想情况。在本次测试中，我们还需要测试接近实际网络情况下的极限性能，这可以通过引入丢包率、延时来模拟。&lt;/p&gt;
+
+&lt;h1 id=&quot;section-7&quot;&gt;测试项目&lt;/h1&gt;
+
+&lt;h2 id=&quot;section-8&quot;&gt;测试一&lt;/h2&gt;
+
+&lt;p&gt;测试目标：了解nginx的带宽满载的最小文件大小 （web服务器模式），确定之后测试的文件大小上限&lt;/p&gt;
+
+&lt;p&gt;测试工具：ab&lt;/p&gt;
+
+&lt;p&gt;测试方法：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;S上Nginx做简单配置，使其成为web server；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在C1上使用 &lt;测试工具&gt; 对S测试10000字节文件，每次减小1000字节，至带宽和RPS均为最高为止。&lt;/测试工具&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;根据第二步测试情况调整文件大小，以逼近S的带宽恰好满载且CPU占用率最高时的情况，并记录最终的阈值大小和RPS/PPS指标。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;测试结果：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;文件大小(Bytes)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;CPU idle(%)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;带宽(MBps)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;&lt;strong&gt;PPS&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;10K&lt;/td&gt;
+      &lt;td&gt;65&lt;/td&gt;
+      &lt;td&gt;1140&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;606K&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3K&lt;/td&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;1135&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1060K&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2590&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1088&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1138K&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1K&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;585&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;783K&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;在采用kernel的pktgen发包测试中，苏能达到的最大PPS为1200K。2590Bytes文件测试中的PPS已经很接近纯发包测试的极限，所以最终，最充
+分利用CPU和带宽的文件大小是2590Bytes。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-9&quot;&gt;测试二&lt;/h2&gt;
+
+&lt;p&gt;测试目标：了解 nginx 的大致性能（web服务器模式）&lt;/p&gt;
+
+&lt;p&gt;测试工具：ab&lt;/p&gt;
+
+&lt;p&gt;测试方法：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;S上Nginx做简单配置，使其成为web server；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在C1上使用 &lt;测试工具&gt; 对S分别测试空文件、616字节文件(半个包长度)、1232字节文件（即含header字节数为1448，整TCP包长度）、1
+233字节文件（超过一个TCP/IP包大小1字节）和2590字节文件；3. 测试中记录S的网络吞吐量和CPU状况；C1的RPS，PPS指标波动情况。&lt;/测试工具&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;测试预期：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;吞吐量应超过1Gbps；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;吞吐量接近5Gbps；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;适当调整网卡等其他配置，应使RPS超过50万（原有百兆环境下的极限值）。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;初步测试：&lt;/p&gt;
+
+&lt;p&gt;1、在CentOS6.2系统上，十次测试平均结果发现空文件的RPS仅为458005，响应时间0.88715ms，S带宽121M，未能达到预期。&lt;/p&gt;
+
+&lt;p&gt;2、检查发现CentOS6.2的ixgbe驱动版本为3.4.8，与最新版本差距较大，升级ixgbe驱动至最新版3.11.33。&lt;/p&gt;
+
+&lt;p&gt;更新后原先的8核client已经无法压满server，更换Client设备，ab并发由50×8提高到50×24，测试不同的InterruptThrottle
+Rate条件下数据如下：&lt;/p&gt;
+
+&lt;p&gt;1000：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/c568fc0.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;1500：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m15b564f6.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2500：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/85b1bbd.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;3500：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/335545b5.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;4500：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m25052f88.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;根据以上数据可知，在ITR1500的情况下，空文件的RPS最高，对比数据如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;ITR&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;RPS&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;带宽(MBps)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;user%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;sys%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;&lt;strong&gt;irq%&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1000&lt;/td&gt;
+      &lt;td&gt;688425&lt;/td&gt;
+      &lt;td&gt;186.886&lt;/td&gt;
+      &lt;td&gt;30.112&lt;/td&gt;
+      &lt;td&gt;52.936&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;16.951&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1500&lt;/td&gt;
+      &lt;td&gt;691614&lt;/td&gt;
+      &lt;td&gt;187.408&lt;/td&gt;
+      &lt;td&gt;30.125&lt;/td&gt;
+      &lt;td&gt;52.208&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;17.667&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2500&lt;/td&gt;
+      &lt;td&gt;682326&lt;/td&gt;
+      &lt;td&gt;183.277&lt;/td&gt;
+      &lt;td&gt;29.191&lt;/td&gt;
+      &lt;td&gt;53.253&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;17.556&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3500&lt;/td&gt;
+      &lt;td&gt;650367&lt;/td&gt;
+      &lt;td&gt;175.477&lt;/td&gt;
+      &lt;td&gt;26.803&lt;/td&gt;
+      &lt;td&gt;56.732&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;16.382&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4500&lt;/td&gt;
+      &lt;td&gt;630178&lt;/td&gt;
+      &lt;td&gt;169.474&lt;/td&gt;
+      &lt;td&gt;26.417&lt;/td&gt;
+      &lt;td&gt;56.708&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;16.833&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;（注：表格中RPS和带宽数据均为峰值，CPU数据为平稳运行期的中间时刻采样值。下同）&lt;/p&gt;
+
+&lt;p&gt;所以在新驱动ITR1500的条件下，重新测试616,1232,1233,2590字节的数据：&lt;/p&gt;
+
+&lt;p&gt;616：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m2c94d5e6.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;1232：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/3bd4c0bf.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;1233：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m1cb568d3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2590&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m73a60e04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;测试过程出现剧烈的吞吐量波动，在原有的itr1500的条件下服务极不稳定。&lt;/p&gt;
+
+&lt;p&gt;总结ITR1500条件下各文件大小的测试数据对比如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;文件大小(Btyes)&lt;/th&gt;
+      &lt;th&gt;RPS&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;带宽(MBps)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;CPU usr%&lt;/th&gt;
+      &lt;th&gt;CPU sys%&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;CPU irq%&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;691614&lt;/td&gt;
+      &lt;td&gt;187.408&lt;/td&gt;
+      &lt;td&gt;30.125&lt;/td&gt;
+      &lt;td&gt;52.208&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;17.667&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;616&lt;/td&gt;
+      &lt;td&gt;586296&lt;/td&gt;
+      &lt;td&gt;459.435&lt;/td&gt;
+      &lt;td&gt;29.583&lt;/td&gt;
+      &lt;td&gt;54.250&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;16.083&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1232&lt;/td&gt;
+      &lt;td&gt;579103&lt;/td&gt;
+      &lt;td&gt;838.146&lt;/td&gt;
+      &lt;td&gt;29.471&lt;/td&gt;
+      &lt;td&gt;50.563&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;16.048&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1233&lt;/td&gt;
+      &lt;td&gt;513099&lt;/td&gt;
+      &lt;td&gt;772.826&lt;/td&gt;
+      &lt;td&gt;28.417&lt;/td&gt;
+      &lt;td&gt;48.875&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;22.708&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2590&lt;/td&gt;
+      &lt;td&gt;418226&lt;/td&gt;
+      &lt;td&gt;1173.760&lt;/td&gt;
+      &lt;td&gt;23.343&lt;/td&gt;
+      &lt;td&gt;41.934&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;18.216&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;另经测试，ITR上调到15000后，2590字节文件测试的S吞吐量恢复成稳定满带宽运行。而且支持并发到80×24。对比ITR5000/10000/15000
+条件下数据：&lt;/p&gt;
+
+&lt;p&gt;ITR5000图&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m7333a2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;ITR10000图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m7721129e.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;ITR15000图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/a58a533.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2.59KB文件在不同ITR下的测试数据对比如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;ITR&lt;/th&gt;
+      &lt;th&gt;RPS&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;带宽(MBps)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;usr%&lt;/th&gt;
+      &lt;th&gt;sys%&lt;/th&gt;
+      &lt;th&gt;irq%&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;错误进程&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1500&lt;/td&gt;
+      &lt;td&gt;418226&lt;/td&gt;
+      &lt;td&gt;1173.760&lt;/td&gt;
+      &lt;td&gt;23.343&lt;/td&gt;
+      &lt;td&gt;41.934&lt;/td&gt;
+      &lt;td&gt;18.216&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5000&lt;/td&gt;
+      &lt;td&gt;418216&lt;/td&gt;
+      &lt;td&gt;1172.530&lt;/td&gt;
+      &lt;td&gt;24.250&lt;/td&gt;
+      &lt;td&gt;55.792&lt;/td&gt;
+      &lt;td&gt;19.667&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;10000&lt;/td&gt;
+      &lt;td&gt;417989&lt;/td&gt;
+      &lt;td&gt;1171.960&lt;/td&gt;
+      &lt;td&gt;24.625&lt;/td&gt;
+      &lt;td&gt;52.958&lt;/td&gt;
+      &lt;td&gt;22.292&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;15000&lt;/td&gt;
+      &lt;td&gt;404330&lt;/td&gt;
+      &lt;td&gt;1132.490&lt;/td&gt;
+      &lt;td&gt;23.802&lt;/td&gt;
+      &lt;td&gt;52.855&lt;/td&gt;
+      &lt;td&gt;23.343&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;section-10&quot;&gt;测试三&lt;/h2&gt;
+
+&lt;p&gt;测试目标：了解nginx配置对性能的影响(access_log)&lt;/p&gt;
+
+&lt;p&gt;测试工具：ab&lt;/p&gt;
+
+&lt;p&gt;测试方法：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;S上做简单配置，关闭access_log后进行测试；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;再测试关闭access_log buffer的情况（对比测试二的access_log buffer=1024k的情况）&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在C1上使用 &lt;测试工具&gt; 对S分别测试空文件(ITR为1500)&lt;/测试工具&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试中记录CPU占用率，网络吞吐量，RPS和平均响应时间指标&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;测试结果：&lt;/p&gt;
+
+&lt;p&gt;1、设置access_log /data/access_log main;的情况：&lt;/p&gt;
+
+&lt;p&gt;与关闭日志相比，吞吐量下降，并且无法支持相同数并发（平均有20%的ab进程退出），只能在30×24的并发数情况下完成稳定测试。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/604d3126.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2、将日志写入SSD磁盘，验证是否有性能提升。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m34c0cd58.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;由上两图对比，可见虽然将日志写入SSD对RPS稍有提升，但离关闭日志的70万差距甚远，更换SSD没有实质的意义。&lt;/p&gt;
+
+&lt;p&gt;3、普通磁盘上设置buffer=1024k参数&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/5637f0f7.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;4、设置buffer=64k参数&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m3d18099f.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;5、设置buffer=4k参数&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m160f2f0b.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可见在使用buffer参数后，RPS明显提升到和关闭日志时一个数量级的水准。而buffer的大小，从4k到1024k，也可以提高10%左右。&lt;/p&gt;
+
+&lt;p&gt;测试三各项数据对比如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;配置&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;RPS&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;带宽(MBps)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Usr%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Sys%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;irq%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;&lt;strong&gt;稳定并发&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;关闭日志&lt;/td&gt;
+      &lt;td&gt;691614&lt;/td&gt;
+      &lt;td&gt;187.408&lt;/td&gt;
+      &lt;td&gt;30.125&lt;/td&gt;
+      &lt;td&gt;52.208&lt;/td&gt;
+      &lt;td&gt;17.667&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;50*24&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;打开日志&lt;/td&gt;
+      &lt;td&gt;180148&lt;/td&gt;
+      &lt;td&gt;49.074&lt;/td&gt;
+      &lt;td&gt;8.966&lt;/td&gt;
+      &lt;td&gt;21.337&lt;/td&gt;
+      &lt;td&gt;4.483&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;30*24&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;使用SSD&lt;/td&gt;
+      &lt;td&gt;144347&lt;/td&gt;
+      &lt;td&gt;39.179&lt;/td&gt;
+      &lt;td&gt;10.875&lt;/td&gt;
+      &lt;td&gt;25.708&lt;/td&gt;
+      &lt;td&gt;5.750&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;30*24&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;buffer4K&lt;/td&gt;
+      &lt;td&gt;588767&lt;/td&gt;
+      &lt;td&gt;159.297&lt;/td&gt;
+      &lt;td&gt;27.613&lt;/td&gt;
+      &lt;td&gt;55.352&lt;/td&gt;
+      &lt;td&gt;16.951&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;50*24&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;buffer64K&lt;/td&gt;
+      &lt;td&gt;593022&lt;/td&gt;
+      &lt;td&gt;160.172&lt;/td&gt;
+      &lt;td&gt;26.845&lt;/td&gt;
+      &lt;td&gt;57.065&lt;/td&gt;
+      &lt;td&gt;16.048&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;50*24&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;buffer1M&lt;/td&gt;
+      &lt;td&gt;659290&lt;/td&gt;
+      &lt;td&gt;177.959&lt;/td&gt;
+      &lt;td&gt;32.042&lt;/td&gt;
+      &lt;td&gt;51.875&lt;/td&gt;
+      &lt;td&gt;16.000&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;50*24&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;section-11&quot;&gt;测试四&lt;/h2&gt;
+
+&lt;p&gt;测试目标：了解nginx配置对性能的影响(tcp_nopush off)&lt;/p&gt;
+
+&lt;p&gt;测试工具：ab&lt;/p&gt;
+
+&lt;p&gt;测试方法：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;S上做简单配置，同时关闭tcp_nopush off;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在C1上使用 &lt;测试工具&gt; 对S分别测试1232字节文件和1233字节文件&lt;/测试工具&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试中记录网络吞吐量，RPS和PPS指标&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;测试预期：&lt;/p&gt;
+
+&lt;p&gt;根据对TCP_NOPUSH的理解，在关闭此参数的情况下，1232字节文件的rps应该和开启状态下有较大差别。&lt;/p&gt;
+
+&lt;p&gt;测试结果：&lt;/p&gt;
+
+&lt;p&gt;1232字节文件数据：&lt;/p&gt;
+
+&lt;p&gt;当ITR为1500时：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/51d7bf66.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;峰值带宽比测试二中的数据稍差，但是运行不稳定，CPU的波动与rps图相对应，尝试加大并发则有client进程出现connection timeout错误。&lt;/p&gt;
+
+&lt;p&gt;加大itr到15000后波动变的比较稳定。但RPS下降到40万，与测试二相差接近30%。数据如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m21d6c756.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;该项测试相关数据对比如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;配置&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;RPS&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;带宽(MBps)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Usr%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Sys%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Irq%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;&lt;strong&gt;退出进程&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;tcp_nopush on+ITR1500&lt;/td&gt;
+      &lt;td&gt;579103&lt;/td&gt;
+      &lt;td&gt;838.146&lt;/td&gt;
+      &lt;td&gt;29.471&lt;/td&gt;
+      &lt;td&gt;50.563&lt;/td&gt;
+      &lt;td&gt;16.048&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;tcp_nopush off+ITR1500&lt;/td&gt;
+      &lt;td&gt;543050&lt;/td&gt;
+      &lt;td&gt;817.746&lt;/td&gt;
+      &lt;td&gt;27.095&lt;/td&gt;
+      &lt;td&gt;51.438&lt;/td&gt;
+      &lt;td&gt;21.467&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;tcp_nopush off+ITR15000&lt;/td&gt;
+      &lt;td&gt;393416&lt;/td&gt;
+      &lt;td&gt;593.411&lt;/td&gt;
+      &lt;td&gt;22.458&lt;/td&gt;
+      &lt;td&gt;55.583&lt;/td&gt;
+      &lt;td&gt;21.958&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;section-12&quot;&gt;测试五&lt;/h2&gt;
+
+&lt;p&gt;测试目标：了解nginx的大致性能（代理模式）&lt;/p&gt;
+
+&lt;p&gt;测试工具：ab&lt;/p&gt;
+
+&lt;p&gt;测试方法：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;S上nginx做简单配置，使其成为webserver，作为后端；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;LB上nginx做简单配置，使其成为L7 HTTP 代理，所有请求代理至S。LB后端keepalive在测试中测试两种情况，即打开和关闭&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在C1/C2上使用 &lt;测试工具&gt; 对LB分别测试空文件、1232字节文件和2590字节文件&lt;/测试工具&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试中记录S和LB的CPU占用率，网络吞吐量，RPS三个指标&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;测试预期：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Keepalive关闭时，可能需要对LB的内核参数进行调整才能够完成测试；&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Keepalive关闭时，仅调整内核参数可能不够，S需绑定多个IP地址，LB需使用S的多个IP地址；&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;测试结果：&lt;/p&gt;
+
+&lt;p&gt;（注：因为C1/C2的主板架构/CPU配置不一。8核的C2会先于24核的C1结束测试，后半段数据不如前半段稳定，不过单C1运行也基本可以逼近LB极限，不影响
+数据采集和判断。）&lt;/p&gt;
+
+&lt;p&gt;1、空文件：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m45af05e8.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2、1232字节文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/4687c6d4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;3、2590字节文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m449464d4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;4、10K字节文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m3622cdb6.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;根据测试二的经验，非空文件ITR为15000时表现更稳定，修改后数据如下：&lt;/p&gt;
+
+&lt;p&gt;1、1232字节：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/9098f14.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2、2590字节：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m7d14ebde.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;3、10k字节文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/278a77c9.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;4、100k字节文件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/ffd255.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;关闭proxy_keepalive，使用2台Client测试，并发2400。空文件测试带宽只能压到18MBps，LB和S的CPU
+idle都在85%以上。平均响应时间长达40ms。限于环境，压力测试无法继续进行。&lt;/p&gt;
+
+&lt;p&gt;本测试proxy_keepalive情况时各项数据对比如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;ITR+文件大小&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;RPS&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;带宽(MBps)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Usr%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Sys%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;&lt;strong&gt;Irq%&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ITR1500+0Byte&lt;/td&gt;
+      &lt;td&gt;392406&lt;/td&gt;
+      &lt;td&gt;165.185&lt;/td&gt;
+      &lt;td&gt;39.533&lt;/td&gt;
+      &lt;td&gt;26.647&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;30.234&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ITR1500+1232Bytes&lt;/td&gt;
+      &lt;td&gt;369582&lt;/td&gt;
+      &lt;td&gt;588.209&lt;/td&gt;
+      &lt;td&gt;41.142&lt;/td&gt;
+      &lt;td&gt;28.595&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;28.929&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ITR1500+2590Bytes&lt;/td&gt;
+      &lt;td&gt;296866&lt;/td&gt;
+      &lt;td&gt;898.885&lt;/td&gt;
+      &lt;td&gt;34.250&lt;/td&gt;
+      &lt;td&gt;29.417&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;36.167&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ITR1500+10KBytes&lt;/td&gt;
+      &lt;td&gt;118163&lt;/td&gt;
+      &lt;td&gt;1167.280&lt;/td&gt;
+      &lt;td&gt;17.870&lt;/td&gt;
+      &lt;td&gt;18.319&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;15.218&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ITR15000+1232Bytes&lt;/td&gt;
+      &lt;td&gt;370590&lt;/td&gt;
+      &lt;td&gt;588.422&lt;/td&gt;
+      &lt;td&gt;41.167&lt;/td&gt;
+      &lt;td&gt;28.375&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;29.208&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ITR15000+2590Bytes&lt;/td&gt;
+      &lt;td&gt;297289&lt;/td&gt;
+      &lt;td&gt;897.755&lt;/td&gt;
+      &lt;td&gt;34.890&lt;/td&gt;
+      &lt;td&gt;28.429&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;35.682&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ITR15000+10KBytes&lt;/td&gt;
+      &lt;td&gt;118033&lt;/td&gt;
+      &lt;td&gt;1168.160&lt;/td&gt;
+      &lt;td&gt;21.137&lt;/td&gt;
+      &lt;td&gt;21.426&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;25.752&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ITR15000+100KBytes&lt;/td&gt;
+      &lt;td&gt;11388&lt;/td&gt;
+      &lt;td&gt;1168.890&lt;/td&gt;
+      &lt;td&gt;4.798&lt;/td&gt;
+      &lt;td&gt;12.542&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;10.522&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;section-13&quot;&gt;测试六&lt;/h2&gt;
+
+&lt;p&gt;测试目标：nginx LB在多域名情况下的性能&lt;/p&gt;
+
+&lt;p&gt;测试工具：ab&lt;/p&gt;
+
+&lt;p&gt;测试方法：&lt;/p&gt;
+
+&lt;p&gt;1、S上nginx做简单配置，使其成为webserver，作为后端；&lt;/p&gt;
+
+&lt;p&gt;2、LB上nginx使用我司实际代理配置(800+域名)，使其成为L7 HTTP
+代理，所有请求代理至S。LB后端keepalive在测试中测试两种情况，即打开和关闭&lt;/p&gt;
+
+&lt;p&gt;3、在C1上使用 &lt;测试工具&gt; 对LB分别测试单域名和随机多域名空文件请求&lt;/测试工具&gt;&lt;/p&gt;
+
+&lt;p&gt;4、测试中记录S和LB的CPU占用率，网络吞吐量，RPS三个指标&lt;/p&gt;
+
+&lt;p&gt;测试预期：&lt;/p&gt;
+
+&lt;p&gt;多域名代理情况下性能应和直接通过IP访问在一个数量级内。&lt;/p&gt;
+
+&lt;p&gt;测试结果：&lt;/p&gt;
+
+&lt;p&gt;1、单域名：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m76022a04.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2、随机域名。因为测试在2台服务器上一共开启了32个ab进程，即随机选出32个域名做的测试，结果如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/41f8c534.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;3、关闭keepalive的情况：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m6f56712d.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可见代理模式使用多个domain和upstream配置，对性能没有太大影响。有影响的依然是keepalive是否开启。具体数据对比如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;测试条件&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;RPS&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;带宽(MBps)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Usr%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Sys%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;&lt;strong&gt;Irq%&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;IP访问&lt;/td&gt;
+      &lt;td&gt;392406&lt;/td&gt;
+      &lt;td&gt;165.185&lt;/td&gt;
+      &lt;td&gt;39.533&lt;/td&gt;
+      &lt;td&gt;26.647&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;30.234&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;单域名&lt;/td&gt;
+      &lt;td&gt;377292&lt;/td&gt;
+      &lt;td&gt;179.832&lt;/td&gt;
+      &lt;td&gt;41.091&lt;/td&gt;
+      &lt;td&gt;26.811&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;29.559&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;多域名&lt;/td&gt;
+      &lt;td&gt;384513&lt;/td&gt;
+      &lt;td&gt;185.632&lt;/td&gt;
+      &lt;td&gt;43.297&lt;/td&gt;
+      &lt;td&gt;27.186&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;28.185&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;No keepalive&lt;/td&gt;
+      &lt;td&gt;34879&lt;/td&gt;
+      &lt;td&gt;28.310&lt;/td&gt;
+      &lt;td&gt;5.973&lt;/td&gt;
+      &lt;td&gt;7.341&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;9.083&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;section-14&quot;&gt;测试七&lt;/h2&gt;
+
+&lt;p&gt;测试目标：其他常见server性能对比&lt;/p&gt;
+
+&lt;p&gt;测试工具：ab&lt;/p&gt;
+
+&lt;p&gt;测试方法：&lt;/p&gt;
+
+&lt;p&gt;Resin4pro加临时lisence，默认配置(关闭日志)，测试空文件。&lt;/p&gt;
+
+&lt;p&gt;测试结果：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/p/Nginx-testing-10Gibps/m2e7e1790.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;与nginx的webserver模式对比如下：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;Webserver&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;RPS&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;带宽(MBps)&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Usr%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;Sys%&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;&lt;strong&gt;Irq%&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;resin4&lt;/td&gt;
+      &lt;td&gt;44873&lt;/td&gt;
+      &lt;td&gt;32.353&lt;/td&gt;
+      &lt;td&gt;3.884&lt;/td&gt;
+      &lt;td&gt;4.545&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;10.455&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Nginx1.2&lt;/td&gt;
+      &lt;td&gt;691614&lt;/td&gt;
+      &lt;td&gt;187.408&lt;/td&gt;
+      &lt;td&gt;30.125&lt;/td&gt;
+      &lt;td&gt;52.208&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;17.667&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;section-15&quot;&gt;术语及缩写说明&lt;/h1&gt;
+
+&lt;p&gt;RPS: Requests per Second，每秒请求数&lt;/p&gt;
+
+&lt;p&gt;PPS: Packets per second，每秒报文数&lt;/p&gt;
+
+&lt;h1 id=&quot;section-16&quot;&gt;附注&lt;/h1&gt;
+
+&lt;p&gt;测试结果数据及plot图见附件testing-10Gb-new/各目录。&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
    <title>TFS配置文件</title>
    <link href="http://renren.github.com/Documents/TFS/2012/12/26/tfs-configuration"/>
    <updated>2012-12-26T00:00:00+08:00</updated>
    <id>http://renren.github.com/Documents/TFS/2012/12/26/tfs-configuration</id>
-   <content type="html">&lt;pre&gt;&lt;code&gt;[public]&lt;/code&gt;&lt;/pre&gt;
-&lt;br /&gt;
-&lt;p&gt;日志级别，&lt;strong&gt;可选设置&lt;/strong&gt;，默认为&lt;strong&gt;debug&lt;/strong&gt;&lt;/p&gt;
+   <content type="html">
+&lt;pre&gt;&lt;code&gt;[public] &amp;lt;br/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;线上建议设置为INFO，调试时设为DEBUG，有效值是&amp;#8221;ERROR&amp;#8221;,&amp;#8221;WARN&amp;#8221;,&amp;#8221;INFO&amp;#8221;,&amp;#8221;DEBUG&amp;#8221;，不区分大小写&lt;/p&gt;
+&lt;p&gt;日志级别，&lt;strong&gt;可选设置&lt;/strong&gt;，默认为&lt;strong&gt;debug&lt;/strong&gt; &lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;log_level = INFO [ ERROR|WARN|INFO|DEBUG ]&lt;/code&gt;&lt;/pre&gt;
-&lt;br /&gt;
+&lt;p&gt;线上建议设置为INFO，调试时设为DEBUG，有效值是&amp;rdquo;ERROR&amp;rdquo;,&amp;rdquo;WARN&amp;rdquo;,&amp;rdquo;INFO&amp;rdquo;,&amp;rdquo;DEBUG&amp;rdquo;，不区分大小写&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;log_level = INFO [ ERROR|WARN|INFO|DEBUG ] &amp;lt;br/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;日志文件的大小，单位Byte，&lt;strong&gt;可选设置&lt;/strong&gt;，默认为&lt;strong&gt;1GiB&lt;/strong&gt;，超过该大小后日志将被转储&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;log_size = 1073741824&lt;/code&gt;&lt;/pre&gt;
-&lt;br /&gt;
+&lt;pre&gt;&lt;code&gt;log_size = 1073741824 &amp;lt;br/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;保留日志文件的个数，&lt;strong&gt;可选设置&lt;/strong&gt;，默认为&lt;strong&gt;16&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;以nameserver为例，所有日志文件保存在work_dir/logs目录，正在写的文件是nameserver.log。当nameserver.log大小超过log_size时，nameserver.log改名为nameserver.log.%Y%m%d%H%M%S，其中YmdHMS分别代表年月日时分秒。如果nameserver进程启动后写入的log文件数目超过了log_num，则删除最早生成的那个log文件，最后重新打开nameserver.log。需要注意的是，work_dir/logs目录下的日志文件数量可能远大于log_num，log_num控制的是每次nameserver进程生存期内最多产生的log文件数量&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;log_num = 16&lt;/code&gt;&lt;/pre&gt;
-&lt;br /&gt;
+&lt;pre&gt;&lt;code&gt;log_num = 16 &amp;lt;br/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;工作线程数量，&lt;strong&gt;可选设置&lt;/strong&gt;，默认为&lt;strong&gt;8&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;TFS底层网络编程框架采用tbnet库以简化消息的处理。tbnet接收和处理包的过程符合生产者-消费者模型。tbnet网络IO线程收到数据后还原为TFS Message，然后放入一全局工作队列中，有多个消费者线程从全局队列取得Message，执行相应的消息处理函数。thread_count指定消费者线程数量&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;thread_count = 4&lt;/code&gt;&lt;/pre&gt;
-&lt;br /&gt;
+&lt;pre&gt;&lt;code&gt;thread_count = 4 &amp;lt;br/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;工作队列大小，&lt;strong&gt;可选设置&lt;/strong&gt;，默认是&lt;strong&gt;10240&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;指定工作队列中最多能存放的TFS Message数目，最小为10240，最大为40960&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;task_max_queue_size = 10240&lt;/code&gt;&lt;/pre&gt;
-&lt;br /&gt;
+&lt;pre&gt;&lt;code&gt;task_max_queue_size = 10240 &amp;lt;br/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;工作目录，&lt;strong&gt;可选设置&lt;/strong&gt;，默认为&lt;strong&gt;/tmp&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;该目录下的logs目录存放日志文件，根据服务的不同，工作目录下还会存储一些持久化数据。因为/tmp下的数据易失，强烈建议改掉默认设置&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;work_dir = /data/tfs&lt;/code&gt;&lt;/pre&gt;
-&lt;br /&gt;
+&lt;pre&gt;&lt;code&gt;work_dir = /data/tfs &amp;lt;br/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;网络设备，&lt;strong&gt;必须设置&lt;/strong&gt;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;dev_name = bond0&lt;/code&gt;&lt;/pre&gt;
-&lt;br /&gt;
+&lt;pre&gt;&lt;code&gt;dev_name = bond0 &amp;lt;br/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;对外提供服务的IP地址，&lt;strong&gt;必须设置&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;服务配置HA时设置为VIP，没配置HA可以设为master的IP&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;ip_addr = 192.168.0.1&lt;/code&gt;&lt;/pre&gt;
-&lt;br /&gt;
+&lt;pre&gt;&lt;code&gt;ip_addr = 192.168.0.1 &amp;lt;br/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;监听端口, &lt;strong&gt;必须设置&lt;/strong&gt;，从1024~65535中选取&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;port = 8108&lt;/code&gt;&lt;/pre&gt;</content>
+&lt;pre&gt;&lt;code&gt;port = 8108
+&lt;/code&gt;&lt;/pre&gt;
+
+</content>
  </entry>
  
  
