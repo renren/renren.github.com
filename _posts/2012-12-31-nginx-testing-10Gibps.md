@@ -2,8 +2,10 @@
 layout: post
 title: "Nginx 万兆网络环境测试"
 description: ""
-category: 
+categories: [ Technology ]
 tags: []
+author: 'Chenlin Rao'
+contributors: ['Chenlin Rao']
 ---
 {% include JB/setup %}
 **目录**
