@@ -4,7 +4,7 @@
  <title>Renren</title>
  <link href="http://renren.github.com/atom.xml" rel="self"/>
  <link href="http://renren.github.com"/>
- <updated>2012-12-31T01:57:05+08:00</updated>
+ <updated>2012-12-31T14:33:33+08:00</updated>
  <id>http://renren.github.com</id>
  <author>
    <name>Renren Inc.</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>TFS配置文件</title>
-   <link href="http://renren.github.com/TFS/2012/12/26/tfs-configuration"/>
+   <link href="http://renren.github.com/Documents/TFS/2012/12/26/tfs-configuration"/>
    <updated>2012-12-26T00:00:00+08:00</updated>
-   <id>http://renren.github.com/TFS/2012/12/26/tfs-configuration</id>
+   <id>http://renren.github.com/Documents/TFS/2012/12/26/tfs-configuration</id>
    <content type="html">&lt;pre&gt;&lt;code&gt;[public]&lt;/code&gt;&lt;/pre&gt;
 &lt;br /&gt;
 &lt;p&gt;日志级别，&lt;strong&gt;可选设置&lt;/strong&gt;，默认为&lt;strong&gt;debug&lt;/strong&gt;&lt;/p&gt;
